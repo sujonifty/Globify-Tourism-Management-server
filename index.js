@@ -25,6 +25,24 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
+
+    const spotCollection = client.db('globifyDB').collection('touristSpot');
+    app.post('/touristSpot',async(req, res)=>{
+        const newSpot = req.body;
+        console.log(newSpot);
+        const result = await spotCollection.insertOne(newSpot);
+        res.send(result);
+    })
+    
+    app.get('/touristSpot',async(req, res)=>{
+        const cursor = spotCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+    })
+
+
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
