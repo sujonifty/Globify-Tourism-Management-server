@@ -23,8 +23,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try {
-        // Connect the client to the server	(optional starting in v4.7)
-        // await client.connect();
+    
 
         const spotCollection = client.db('globifyDB').collection('touristSpot');
         app.post('/touristSpot', async (req, res) => {
@@ -40,10 +39,19 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         })
+
+        app.get('/touristSort', async (req, res) => {
+            // const query = { cost: price };
+            const cursor = spotCollection.find(query, options).sort({ cost: 1 });
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+
         // myList 
         app.get('/tourist/:email', async (req, res) => {
             const email = req.params.email;
-            const query = { userEmail: email};
+            const query = { userEmail: email };
             const result = await spotCollection.find(query).toArray();
             res.send(result);
         })
@@ -60,41 +68,41 @@ async function run() {
             const query = { _id: new ObjectId(id) };
             const result = await spotCollection.findOne(query);
             res.send(result);
-          })
-        
+        })
+
 
         // card  updated 
         app.put('/touristSpot/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) };
-            const options = {upsert:true};
-            const updatedSpot=req.body;
-            const spot ={
-                $set:{
+            const options = { upsert: true };
+            const updatedSpot = req.body;
+            const spot = {
+                $set: {
                     name: updatedSpot.name,
-                country: updatedSpot.country,
-                location: updatedSpot.location,
-                photo: updatedSpot.photo,
-                cost: updatedSpot.cost,
-                season: updatedSpot.season,
-                travelTime: updatedSpot.travelTime,
-                totalVisitors: updatedSpot.totalVisitors,
-                description: updatedSpot.description,
-                userName: updatedSpot.userName,
-                userEmail: updatedSpot.userEmail,
+                    country: updatedSpot.country,
+                    location: updatedSpot.location,
+                    photo: updatedSpot.photo,
+                    cost: updatedSpot.cost,
+                    season: updatedSpot.season,
+                    travelTime: updatedSpot.travelTime,
+                    totalVisitors: updatedSpot.totalVisitors,
+                    description: updatedSpot.description,
+                    userName: updatedSpot.userName,
+                    userEmail: updatedSpot.userEmail,
                 }
             }
             const result = await spotCollection.updateOne(filter, spot, options);
             res.send(result);
-          })
+        })
 
-// Delete 
-app.delete('/touristSpot/:id', async (req, res) => {
-    const id = req.params.id;
-    const query = { _id: new ObjectId(id) };
-    const result = await spotCollection.deleteOne(query);
-    res.send(result);
-  })
+        // Delete 
+        app.delete('/touristSpot/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await spotCollection.deleteOne(query);
+            res.send(result);
+        })
 
 
         // Send a ping to confirm a successful connection
