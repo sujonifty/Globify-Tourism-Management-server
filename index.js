@@ -113,11 +113,17 @@ async function run() {
         // Country section
         app.get('/asia', async (req, res) => {
             const cursor = tourismCollection.find();
-            console.log(cursor);
             const result = await cursor.toArray();
             res.send(result);
         })
-        
+        //For selected country 
+        app.get('/asia/:country', async (req, res) => {
+            const country = req.params.country;
+            console.log(country)
+            const query = { country: country };
+            const result = await spotCollection.find(query).toArray();
+            res.send(result);
+        })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
