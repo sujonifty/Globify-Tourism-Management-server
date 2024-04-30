@@ -35,7 +35,7 @@ async function run() {
         })
        
 
-        // all tourist spot 
+        // all tourist spot section
         app.get('/touristSpot', async (req, res) => {
             const cursor = spotCollection.find();
             const result = await cursor.toArray();
