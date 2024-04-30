@@ -54,7 +54,7 @@ async function run() {
         })
 
 
-        // myList 
+        // myList section
         app.get('/tourist/:email', async (req, res) => {
             const email = req.params.email;
             const query = { userEmail: email };
@@ -77,7 +77,7 @@ async function run() {
         })
 
 
-        // card  updated 
+        // card  updated section
         app.put('/touristSpot/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) };
@@ -102,7 +102,7 @@ async function run() {
             res.send(result);
         })
 
-        // Delete 
+        // Delete section
         app.delete('/touristSpot/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
