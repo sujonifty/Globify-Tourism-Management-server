@@ -110,7 +110,7 @@ async function run() {
             res.send(result);
         })
 
-        // Country section
+        //For specific Country section
         app.get('/asia', async (req, res) => {
             const cursor = tourismCollection.find();
             const result = await cursor.toArray();
